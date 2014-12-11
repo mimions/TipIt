@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>771BB53F-2459-4860-900F-DD2A9AEB9E01</string>
+	<key>IDESourceControlProjectName</key>
+	<string>TipIt!</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>A8668A5738293122B52FC266BE9C05CE875373FC</key>
+		<string>https://uw-informatics-498.git.beanstalkapp.com/team-skinny-hamsters.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>TipIt!/TipIt!.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>A8668A5738293122B52FC266BE9C05CE875373FC</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://uw-informatics-498.git.beanstalkapp.com/team-skinny-hamsters.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>A8668A5738293122B52FC266BE9C05CE875373FC</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A8668A5738293122B52FC266BE9C05CE875373FC</string>
+			<key>IDESourceControlWCCName</key>
+			<string>team-skinny-hamsters</string>
+		</dict>
+	</array>
+</dict>
+</plist>
