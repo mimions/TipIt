@@ -36,6 +36,7 @@
 -(void)createSliderView;
 -(void)calculateAppropriateSelectorXposition:(UIView *)view;
 -(void)updateValueWithX:(float)x;
+-(void)updateValueWithValue:(NSInteger)x;
 -(void)updateImage;
 -(NSInteger)getValue;
 

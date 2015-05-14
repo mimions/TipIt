@@ -78,6 +78,11 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
     self.numberFormatter = [[NSNumberFormatter alloc] init];
     self.numberFormatter.maximumFractionDigits = 2;
     
+    self.numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
+    NSNumber *numberOfSplit =[[NSUserDefaults standardUserDefaults] objectForKey:@"splitNumber"];
+    _numberOfPeopleLabel.text = [NSString stringWithFormat:@"%i",[numberOfSplit intValue]];
+    NSLog(@"number :%@",_numberOfPeopleLabel.text);
+    
     //determine tip portion by occation
     if ([self isBetweenFromHour:10 toHour:15])
     {
@@ -91,7 +96,7 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
     }
     self.numberFormatter.numberStyle = NSNumberFormatterPercentStyle;
     _tipPortionLabel.text = [self.numberFormatter stringFromNumber:self.tipPortion];
-    
+
     //gesture for popup view to dismiss
     UITapGestureRecognizer *tapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismissPopup)];
     tapRecognizer.numberOfTapsRequired = 1;
@@ -118,7 +123,7 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    //set up the slider for split
+//    set up the slider for split
     _splitSlider = [[TDRatingView alloc]init];
     _splitSlider.delegate = self;
 //    [_splitSlider  drawRatingControlWithX:_numberOfPeopleLabel.frame.origin.x- self.view.frame.size.width*0.55 Y:_numberOfPeopleLabel.frame.origin.y+28 B:NO];
@@ -135,6 +140,10 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
     splitPan.minimumNumberOfTouches = 1;
     splitPan.delegate = self;
     [_splitSlider addGestureRecognizer:splitPan];
+    
+    //    update splitSlider
+    [_splitSlider updateValueWithValue:[_numberOfPeopleLabel.text integerValue]];
+    [_splitSlider updateImage];
     
     
     //set up the slider for tip portion
@@ -154,8 +163,9 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
     tipPan.delegate = self;
     [_tipSlider addGestureRecognizer:tipPan];
     
-    //update tip image according to user's setting
-//    NSLog(@"%@",self.tipPortion);
+    
+//    update tip image according to user's setting
+    NSLog(@"%@",self.tipPortion);
     float p = [self.tipPortion floatValue]*100;
     if (p<11.0) {
         [_tipSlider updateValueWithX:30.0];
@@ -179,6 +189,9 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
     {
         self.tipPortion = [[NSUserDefaults standardUserDefaults] objectForKey:@"lunchTipPortion"];
     } else if ([self isBetweenFromHour:15 toHour:24])
+    {
+        self.tipPortion = [[NSUserDefaults standardUserDefaults] objectForKey:@"dinnerTipPortion"];
+    } else
     {
         self.tipPortion = [[NSUserDefaults standardUserDefaults] objectForKey:@"dinnerTipPortion"];
     }
@@ -214,8 +227,7 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
 #pragma mark -
 #pragma mark - time determine methods
 /*
- * 生成当天的某个点（返回的是伦敦时间，可直接与当前时间[NSDate date]比较）
- * @parameter hour 如hour为“8”，就是上午8:00（本地时间）
+ * @parameter hour “8” for 8:00am（local time）
  */
 - (NSDate *)getCustomDateWithHour:(NSInteger)hour
 {
@@ -228,7 +240,7 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
     
     currentComps = [currentCalendar components:unitFlags fromDate:currentDate];
     
-    //设置当天的某个点
+    //setting current time
     NSDateComponents *resultComps = [[NSDateComponents alloc] init];
     [resultComps setYear:[currentComps year]];
     [resultComps setMonth:[currentComps month]];
@@ -240,7 +252,7 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
 }
 
 /**
- * 判断当前时间是否在fromHour和toHour之间。如，fromHour=8，toHour=23时，即为判断当前时间是否在8:00-23:00之间
+ * Judge if the current time is between fromHour and toHour
  */
 - (BOOL)isBetweenFromHour:(NSInteger)fromHour toHour:(NSInteger)toHour
 {
@@ -290,7 +302,7 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
     //NSLog(@"%@",self.tipPortion);
     
     self.totalTip = [NSNumber numberWithFloat:[self.checkAmount floatValue] * [self.tipPortion floatValue]];
-    self.allTogether = [NSNumber numberWithFloat:([self.checkAmount floatValue] + [self.totalTip floatValue])];
+    self.allTogether = [NSNumber numberWithFloat:[_checkAmountTextfield.text floatValue] + [self.totalTip floatValue]];
     self.tipPerPerson = [NSNumber numberWithFloat:([self.totalTip floatValue] / [_numberOfPeopleLabel.text integerValue])];
     self.totalPerPerson = [NSNumber numberWithFloat:([self.allTogether floatValue] / [_numberOfPeopleLabel.text integerValue])];
     
@@ -315,6 +327,8 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
                 {
                     self.numberFormatter.numberStyle = NSNumberFormatterDecimalStyle;
                     _numberOfPeopleLabel.text = [self.numberFormatter stringFromNumber:appDelegate.numberOfSplit];
+                    [_splitSlider updateValueWithValue:[appDelegate.numberOfSplit integerValue]];
+                    [_splitSlider updateImage];
                 }
                 break;
             case 2:
@@ -322,6 +336,9 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
                 {
                     self.numberFormatter.numberStyle = NSNumberFormatterPercentStyle;
                     _tipPortionLabel.text = [self.numberFormatter stringFromNumber:appDelegate.tipPortion];
+                    NSInteger tipValue = (NSInteger)(([appDelegate.tipPortion doubleValue]*100.0 - 10)/2.5) + 1;
+                    [_tipSlider updateValueWithValue:tipValue];
+                    [_tipSlider updateImage];
                 }
                 break;
             case 3:
@@ -496,7 +513,6 @@ static NSString * const kTokenSecret       = @"RHkA4gdOWAhvvi_ctNbkF6Vj8o8";
 }
 
 //present restaurant list to user
-//根据list长度改popup view的大小？
 - (IBAction)didRequestRecommendation:(id)sender {
     
     switch ([CLLocationManager authorizationStatus]) {

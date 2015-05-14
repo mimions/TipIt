@@ -89,6 +89,16 @@
     return value;
 }
 
+-(void)updateValueWithValue:(NSInteger)x
+{
+    if(x<1){
+        x=1;
+    } else if(x>5){
+        x=5;
+    }
+    value = x;
+}
+
 -(void)updateValueWithX:(float)x
 {
     value = 1+(x -13)/46;
@@ -109,6 +119,7 @@
             img = [NSString stringWithFormat:@"%ldpeople.png",(long)value];
         }
         containerView.image = [UIImage imageNamed:img];
+        NSLog(img);
     }
 }
 

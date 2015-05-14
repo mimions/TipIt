@@ -68,7 +68,8 @@
         NSString *number = [pickerData objectAtIndex:row];
         AppDelegate *appDelegate = [[UIApplication sharedApplication] delegate];
         appDelegate.numberOfSplit = [NSNumber numberWithInt:[number intValue]];
-
+        [[NSUserDefaults standardUserDefaults] setObject: number forKey:@"splitNumber"];
+//        NSLog([[NSUserDefaults standardUserDefaults] objectForKey:@"splitNumber"]);
 }
 
 //指定初始显示的行为当前默认split number

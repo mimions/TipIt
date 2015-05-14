@@ -50,6 +50,7 @@
     
     [defaultValues setObject:[NSNumber numberWithDouble:0.15] forKey:@"lunchTipPortion"];
     [defaultValues setObject:[NSNumber numberWithDouble:0.20] forKey:@"dinnerTipPortion"];
+    [defaultValues setObject:[NSNumber numberWithInteger:1] forKey:@"splitNumber"];
     
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaultValues];
 }
